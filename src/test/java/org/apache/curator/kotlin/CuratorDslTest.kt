@@ -39,7 +39,7 @@ class CuratorDslTest {
     fun testGetData() {
         curatorFramework.create().forPath("/nick", "linux_china".toByteArray())
         curator(curatorFramework) {
-            getData("/nick") {
+            getStringData("/nick") {
                 println(it)
             }
         }
