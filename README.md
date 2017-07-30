@@ -5,7 +5,7 @@ Kotlin DSL for Apache Curator to make ZooKeeper operation easy.
 
 ### Why DSL
 
-The CuratorFramework uses a Fluent-style interface, and it's good. But DSL will make it easy.
+The CuratorFramework uses a Fluent-style interface, and it's good. But DSL will make it easy to read and write.
 
 
 ### Curator Recipes
@@ -23,8 +23,8 @@ The CuratorFramework uses a Fluent-style interface, and it's good. But DSL will 
 
 ```
 curator(curatorFramework) {
-    get("xxx") {
-       TODO("listener here")
+    getStringData("/xxx") {
+       println(it)
     }
     lock("/xxx") {
     }
@@ -33,6 +33,7 @@ curator(curatorFramework) {
 ### TODO
 
 * Curator Async
+* Documentation
 
 ### References
 
