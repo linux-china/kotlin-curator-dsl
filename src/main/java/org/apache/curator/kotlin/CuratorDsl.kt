@@ -7,10 +7,11 @@ import org.apache.curator.framework.CuratorFramework
  *
  * @author linux_china
  */
-class CuratorDSL() {
+class CuratorDSL(private val client: CuratorFramework) {
 
-    fun getData(listener: (String) -> Unit) {
-
+    fun getData(path: String, listener: (String) -> Unit) {
+        val data = client.data.forPath(path)
+        listener(String(data, Charsets.UTF_8))
     }
 
     fun lock(block: (String) -> Unit) {
@@ -20,5 +21,5 @@ class CuratorDSL() {
 }
 
 fun curator(client: CuratorFramework, block: CuratorDSL.() -> Unit) {
-
+    block.invoke(CuratorDSL(client))
 }
