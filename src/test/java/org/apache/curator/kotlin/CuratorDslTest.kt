@@ -1,6 +1,11 @@
 package org.apache.curator.kotlin
 
+import org.apache.curator.framework.CuratorFramework
 import org.apache.curator.framework.CuratorFrameworkFactory
+import org.apache.curator.retry.RetryOneTime
+import org.apache.curator.test.TestingServer
+import org.junit.AfterClass
+import org.junit.BeforeClass
 import org.junit.Test
 
 /**
@@ -10,12 +15,33 @@ import org.junit.Test
  */
 
 class CuratorDslTest {
-    private val curatorFramework = CuratorFrameworkFactory.builder().connectString("localhost:2181").build()!!
+
+    companion object {
+        lateinit var curatorFramework: CuratorFramework
+        lateinit var testServer: TestingServer
+        @BeforeClass
+        @JvmStatic
+        fun setup() {
+            testServer = TestingServer(true)
+            curatorFramework = CuratorFrameworkFactory.builder().connectString(testServer.connectString).retryPolicy(RetryOneTime(2000)).build()!!
+            curatorFramework.start()
+        }
+
+        @AfterClass
+        @JvmStatic
+        fun teardown() {
+            curatorFramework.close()
+            testServer.close()
+        }
+    }
 
     @Test
     fun testGetData() {
+        curatorFramework.create().forPath("/nick", "linux_china".toByteArray())
         curator(curatorFramework) {
-
+            getData("/nick") {
+                println(it)
+            }
         }
     }
 }
