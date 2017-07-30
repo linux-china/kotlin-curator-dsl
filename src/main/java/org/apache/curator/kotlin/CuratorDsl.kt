@@ -9,6 +9,10 @@ import org.apache.curator.framework.CuratorFramework
  */
 class CuratorDSL(private val client: CuratorFramework) {
 
+    fun create(path: String, value: ByteArray) {
+        client.create().forPath(path, value)
+    }
+
     fun getData(path: String, listener: (ByteArray) -> Unit) {
         val data = client.data.forPath(path)
         listener(data)
