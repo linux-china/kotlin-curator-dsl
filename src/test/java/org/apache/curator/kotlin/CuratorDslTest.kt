@@ -37,8 +37,8 @@ class CuratorDslTest {
 
     @Test
     fun testGetData() {
-        curatorFramework.create().forPath("/nick", "linux_china".toByteArray())
         curator(curatorFramework) {
+            create("/nick", "linux_china".toByteArray())
             getStringData("/nick") {
                 println(it)
             }
