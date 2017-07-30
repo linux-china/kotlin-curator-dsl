@@ -9,7 +9,12 @@ import org.apache.curator.framework.CuratorFramework
  */
 class CuratorDSL(private val client: CuratorFramework) {
 
-    fun getData(path: String, listener: (String) -> Unit) {
+    fun getData(path: String, listener: (ByteArray) -> Unit) {
+        val data = client.data.forPath(path)
+        listener(data)
+    }
+
+    fun getStringData(path: String, listener: (String) -> Unit) {
         val data = client.data.forPath(path)
         listener(String(data, Charsets.UTF_8))
     }
