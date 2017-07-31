@@ -30,8 +30,10 @@ curator(curatorFramework) {
     }
 }
 ```
+
 ### TODO
 
+* CuratorFramework class extension
 * Curator Async
 * Documentation
 
